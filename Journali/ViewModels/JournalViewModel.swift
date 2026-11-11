@@ -9,5 +9,8 @@ import Foundation
 import Combine
 
 class JournalViewModel: ObservableObject {
-    @Published var journals: [Journal] = []
+    @Published var journals: [Journal] = [
+        Journal(title: "Great Day", content: "My first journal")
+    ]
 }
+
