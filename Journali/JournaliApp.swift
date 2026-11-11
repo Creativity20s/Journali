@@ -11,7 +11,8 @@ import SwiftUI
 struct JournaliApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SplashView()
         }
     }
 }
+
