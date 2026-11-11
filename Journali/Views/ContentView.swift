@@ -20,18 +20,18 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-                   ZStack {
-                       Color("BPB")
-                           .ignoresSafeArea()
-
-                       Text("عدد اليوميات: \(viewModel.journals.count)")
-                           .foregroundStyle(Color("TPW"))
-                   }
-                   .navigationTitle("Journal")
-               }
-               .preferredColorScheme(.dark)
-           }
-       }
+                    ZStack {
+                        Color("BPB")
+                            .ignoresSafeArea()
+                        
+                        Text("عدد اليوميات: \(viewModel.journals.count)")
+                            .foregroundStyle(Color("TPW"))
+                    }
+                    .navigationTitle("Journal")
+                }
+                .preferredColorScheme(.dark)
+    }
+}
 #Preview {
     ContentView()
 }
