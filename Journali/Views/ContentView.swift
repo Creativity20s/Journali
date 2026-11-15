@@ -20,10 +20,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            ZStack {
-                Color("BPB")
-                    .ignoresSafeArea()
-                
+            Group {
                 if viewModel.journals.isEmpty {
                     VStack(spacing: 12) {
                         Image("emptyBook")
@@ -37,36 +34,42 @@ struct ContentView: View {
                         
                         Text("Craft your personal diary, tap the plus icon to begin")
                             .font(.system(size: 18, weight: .light))
-                            .foregroundStyle(Color("TPW"))
                             .multilineTextAlignment(.center)
                     }
                     .padding(.horizontal, 40)
                 } else {
-                    Text("هنا بتطلع اليوميات")
-                        .foregroundStyle(Color("TPW"))
+                    List {
+                        ForEach(viewModel.journals) { journal in
+                            JournalCardView(journal: journal)
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.hidden)
+                        }
+                    }
+                    .listStyle(.plain)
                 }
             }
-            .navigationTitle("Journal")
-            .toolbar {
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button {
-                        print("فلتر")
-                    } label: {
-                        Image(systemName: "line.3.horizontal.decrease")
-                    }
+                        .navigationTitle("Journal")
+                        .toolbar {
+                            ToolbarItemGroup(placement: .topBarTrailing) {
+                                Button {
+                                    print("فلتر")
+                                } label: {
+                                    Image(systemName: "line.3.horizontal.decrease")
+                                }
 
-                    Button {
-                        print("إضافة")
-                    } label: {
-                        Image(systemName: "plus")
+                                Button {
+                                    print("إضافة")
+                                } label: {
+                                    Image(systemName: "plus")
+                                }
+                            }
+                        }
                     }
+                    .tint(.primary)
                 }
             }
-        }
-        .preferredColorScheme(.dark)
-        .tint(Color("TPW"))
-    }
-}
-#Preview {
-    ContentView()
-}
+
+            #Preview {
+                ContentView()
+                    .preferredColorScheme(.dark)
+            }
