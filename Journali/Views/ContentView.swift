@@ -17,6 +17,7 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var viewModel = JournalViewModel()
+    @State private var showAddSheet = false
     
     var body: some View {
         NavigationStack {
@@ -58,11 +59,14 @@ struct ContentView: View {
                                 }
 
                                 Button {
-                                    print("إضافة")
+                                    showAddSheet = true
                                 } label: {
                                     Image(systemName: "plus")
                                 }
                             }
+                        }
+                        .sheet(isPresented: $showAddSheet) {
+                            AddJournalView()
                         }
                     }
                     .tint(.primary)
