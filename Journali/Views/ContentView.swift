@@ -63,9 +63,11 @@ struct ContentView: View {
                         }
                     }
                     .listStyle(.plain)
+                    .scrollDismissesKeyboard(.immediately)
                 }
             }
                         .navigationTitle("Journal")
+                        .searchable(text: $viewModel.searchText, prompt: "Search")
                         .toolbar {
                             ToolbarItemGroup(placement: .topBarTrailing) {
                                 Menu {

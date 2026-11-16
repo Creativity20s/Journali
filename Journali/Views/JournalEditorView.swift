@@ -40,6 +40,7 @@ struct JournalEditorView: View {
 
                     TextEditor(text: $content)
                         .scrollContentBackground(.hidden)
+                        .scrollDismissesKeyboard(.interactively)
                 }
                 .font(.system(size: 20))
             }

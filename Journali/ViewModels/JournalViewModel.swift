@@ -20,14 +20,26 @@ class JournalViewModel: ObservableObject {
             Journal(title: "Great Day", content: "Finished the splash screen and main page!")
         ]
     @Published var sortOption: SortOption = .date
+    @Published var searchText = ""
 
     var displayedJournals: [Journal] {
+        var result: [Journal]
+
         switch sortOption {
         case .date:
-            return journals.sorted { $0.date > $1.date }
+            result = journals.sorted { $0.date > $1.date }
         case .bookmark:
-            return journals.filter { $0.isBookmarked }
+            result = journals.filter { $0.isBookmarked }
         }
+
+        if !searchText.isEmpty {
+            result = result.filter {
+                $0.title.localizedCaseInsensitiveContains(searchText) ||
+                $0.content.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+
+        return result
     }
     
     func addJournal(title: String, content: String) {
