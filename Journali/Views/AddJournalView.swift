@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AddJournalView: View {
     @Environment(\.dismiss) private var dismiss
+    @ObservedObject var viewModel: JournalViewModel
     @State private var title = ""
     @State private var content = ""
 
@@ -47,7 +48,8 @@ struct AddJournalView: View {
 
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
-                            print("حفظ")
+                            viewModel.addJournal(title: title, content: content)
+                            dismiss()
                         } label: {
                             Image(systemName: "checkmark")
                         }
@@ -58,6 +60,6 @@ struct AddJournalView: View {
 }
 
 #Preview {
-    AddJournalView()
+    AddJournalView(viewModel: JournalViewModel())
         .preferredColorScheme(.dark)
 }

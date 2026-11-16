@@ -14,5 +14,10 @@ class JournalViewModel: ObservableObject {
             Journal(title: "Today's Journal", content: "Started learning SwiftUI today."),
             Journal(title: "Great Day", content: "Finished the splash screen and main page!")
         ]
+    
+    func addJournal(title: String, content: String) {
+        let newJournal = Journal(title: title, content: content)
+        journals.insert(newJournal, at: 0)
+    }
 }
 

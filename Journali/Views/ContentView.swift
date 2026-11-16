@@ -66,7 +66,7 @@ struct ContentView: View {
                             }
                         }
                         .sheet(isPresented: $showAddSheet) {
-                            AddJournalView()
+                            AddJournalView(viewModel: viewModel)
                         }
                     }
                     .tint(.primary)
