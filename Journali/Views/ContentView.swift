@@ -18,6 +18,9 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var viewModel = JournalViewModel()
     @State private var showAddSheet = false
+    @State private var showDeleteAlert = false
+    @State private var journalToDelete: Journal?
+    @State private var journalToEdit: Journal?
     
     var body: some View {
         NavigationStack {
@@ -40,10 +43,23 @@ struct ContentView: View {
                     .padding(.horizontal, 40)
                 } else {
                     List {
-                        ForEach(viewModel.journals) { journal in
-                            JournalCardView(journal: journal)
-                                .listRowBackground(Color.clear)
-                                .listRowSeparator(.hidden)
+                        ForEach(viewModel.journals) { journal in JournalCardView(journal: journal) {
+                            viewModel.toggleBookmark(for: journal)
+                        }
+                        .onTapGesture {
+                            journalToEdit = journal
+                        }
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .swipeActions(edge: .trailing) {
+                            Button {
+                                journalToDelete = journal
+                                showDeleteAlert = true
+                            } label: {
+                                Image(systemName: "trash.fill")
+                            }
+                            .tint(Color("SD"))
+                        }
                         }
                     }
                     .listStyle(.plain)
@@ -66,7 +82,20 @@ struct ContentView: View {
                             }
                         }
                         .sheet(isPresented: $showAddSheet) {
-                            AddJournalView(viewModel: viewModel)
+                            JournalEditorView(viewModel: viewModel)
+                        }
+                        .sheet(item: $journalToEdit) { journal in
+                            JournalEditorView(viewModel: viewModel, journal: journal)
+                        }
+                        .alert("Delete Journal?", isPresented: $showDeleteAlert) {
+                            Button("Cancel", role: .cancel) { }
+                            Button("Delete", role: .destructive) {
+                                if let journal = journalToDelete {
+                                    viewModel.deleteJournal(journal)
+                                }
+                            }
+                        } message: {
+                            Text("Are you sure you want to delete this journal?")
                         }
                     }
                     .tint(.primary)

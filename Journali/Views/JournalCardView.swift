@@ -9,6 +9,7 @@ import SwiftUI
 
 struct JournalCardView: View {
     let journal: Journal
+    let onBookmark: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -19,8 +20,13 @@ struct JournalCardView: View {
 
                 Spacer()
 
-                Image(systemName: journal.isBookmarked ? "bookmark.fill" : "bookmark")
-                    .foregroundStyle(Color("AP"))
+                Button {
+                    onBookmark()
+                } label: {
+                    Image(systemName: journal.isBookmarked ? "bookmark.fill" : "bookmark")
+                        .foregroundStyle(Color("AP"))
+                }
+                .buttonStyle(.borderless)
             }
 
             Text(journal.date.formatted(date: .numeric, time: .omitted))
@@ -38,7 +44,7 @@ struct JournalCardView: View {
 }
 
 #Preview {
-    JournalCardView(journal: Journal(title: "Great Day", content: "Today was amazing, I learned SwiftUI!"))
+    JournalCardView(journal: Journal(title: "Great Day", content: "Today was amazing, I learned SwiftUI!"), onBookmark: {})
         .padding()
         .preferredColorScheme(.dark)
 }
