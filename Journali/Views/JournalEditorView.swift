@@ -63,7 +63,7 @@ struct JournalEditorView: View {
                         Button("Discard Changes", role: .destructive) {
                             dismiss()
                         }
-                        Button("Keep Editing", role: .cancel) { }
+                        Button("Keep Editing") { }
                     }
                 }
 
@@ -75,7 +75,6 @@ struct JournalEditorView: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(Color("AP"))
-                    .disabled(title.isEmpty)
                 }
             }
             .onAppear {

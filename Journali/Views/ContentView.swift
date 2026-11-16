@@ -43,7 +43,7 @@ struct ContentView: View {
                     .padding(.horizontal, 40)
                 } else {
                     List {
-                        ForEach(viewModel.journals) { journal in JournalCardView(journal: journal) {
+                        ForEach(viewModel.displayedJournals) { journal in JournalCardView(journal: journal) {
                             viewModel.toggleBookmark(for: journal)
                         }
                         .onTapGesture {
@@ -68,8 +68,13 @@ struct ContentView: View {
                         .navigationTitle("Journal")
                         .toolbar {
                             ToolbarItemGroup(placement: .topBarTrailing) {
-                                Button {
-                                    print("فلتر")
+                                Menu {
+                                    Button("Sort by Bookmark") {
+                                        viewModel.sortOption = .bookmark
+                                    }
+                                    Button("Sort by Entry Date") {
+                                        viewModel.sortOption = .date
+                                    }
                                 } label: {
                                     Image(systemName: "line.3.horizontal.decrease")
                                 }

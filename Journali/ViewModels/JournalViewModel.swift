@@ -8,12 +8,27 @@
 import Foundation
 import Combine
 
+enum SortOption {
+    case date
+    case bookmark
+}
+
 class JournalViewModel: ObservableObject {
     @Published var journals: [Journal] = [
         Journal(title: "My Birthday", content: "Best day ever with my family and friends!", isBookmarked: true),
             Journal(title: "Today's Journal", content: "Started learning SwiftUI today."),
             Journal(title: "Great Day", content: "Finished the splash screen and main page!")
         ]
+    @Published var sortOption: SortOption = .date
+
+    var displayedJournals: [Journal] {
+        switch sortOption {
+        case .date:
+            return journals.sorted { $0.date > $1.date }
+        case .bookmark:
+            return journals.filter { $0.isBookmarked }
+        }
+    }
     
     func addJournal(title: String, content: String) {
         let newJournal = Journal(title: title, content: content)
