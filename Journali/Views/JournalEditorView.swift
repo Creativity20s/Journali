@@ -11,25 +11,25 @@ struct JournalEditorView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: JournalViewModel
     var journal: Journal? = nil
-
+    
     @State private var title = ""
     @State private var content = ""
     @State private var showDiscardAlert = false
-
+    
     private var hasChanges: Bool {
         title != (journal?.title ?? "") || content != (journal?.content ?? "")
     }
-
+    
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 8) {
                 TextField("Title", text: $title)
                     .font(.system(size: 34, weight: .bold))
-
+                
                 Text((journal?.date ?? Date()).formatted(date: .numeric, time: .omitted))
                     .font(.system(size: 14))
                     .foregroundStyle(Color("TS"))
-
+                
                 ZStack(alignment: .topLeading) {
                     if content.isEmpty {
                         Text("Type your Journal...")
@@ -37,7 +37,7 @@ struct JournalEditorView: View {
                             .padding(.top, 8)
                             .padding(.leading, 5)
                     }
-
+                    
                     TextEditor(text: $content)
                         .scrollContentBackground(.hidden)
                         .scrollDismissesKeyboard(.interactively)
@@ -67,7 +67,7 @@ struct JournalEditorView: View {
                         Button("Keep Editing") { }
                     }
                 }
-
+                
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         save()
@@ -87,7 +87,7 @@ struct JournalEditorView: View {
         }
         .interactiveDismissDisabled(hasChanges)
     }
-
+    
     private func save() {
         if let journal {
             viewModel.updateJournal(journal, title: title, content: content)

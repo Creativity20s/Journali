@@ -66,50 +66,50 @@ struct ContentView: View {
                     .scrollDismissesKeyboard(.immediately)
                 }
             }
-                        .navigationTitle("Journal")
-                        .searchable(text: $viewModel.searchText, prompt: "Search")
-                        .toolbar {
-                            ToolbarItemGroup(placement: .topBarTrailing) {
-                                Menu {
-                                    Button("Sort by Bookmark") {
-                                        viewModel.sortOption = .bookmark
-                                    }
-                                    Button("Sort by Entry Date") {
-                                        viewModel.sortOption = .date
-                                    }
-                                } label: {
-                                    Image(systemName: "line.3.horizontal.decrease")
-                                }
-
-                                Button {
-                                    showAddSheet = true
-                                } label: {
-                                    Image(systemName: "plus")
-                                }
-                            }
+            .navigationTitle("Journal")
+            .searchable(text: $viewModel.searchText, prompt: "Search")
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Menu {
+                        Button("Sort by Bookmark") {
+                            viewModel.sortOption = .bookmark
                         }
-                        .sheet(isPresented: $showAddSheet) {
-                            JournalEditorView(viewModel: viewModel)
+                        Button("Sort by Entry Date") {
+                            viewModel.sortOption = .date
                         }
-                        .sheet(item: $journalToEdit) { journal in
-                            JournalEditorView(viewModel: viewModel, journal: journal)
-                        }
-                        .alert("Delete Journal?", isPresented: $showDeleteAlert) {
-                            Button("Cancel", role: .cancel) { }
-                            Button("Delete", role: .destructive) {
-                                if let journal = journalToDelete {
-                                    viewModel.deleteJournal(journal)
-                                }
-                            }
-                        } message: {
-                            Text("Are you sure you want to delete this journal?")
-                        }
+                    } label: {
+                        Image(systemName: "line.3.horizontal.decrease")
                     }
-                    .tint(.primary)
+                    
+                    Button {
+                        showAddSheet = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
                 }
             }
-
-            #Preview {
-                ContentView()
-                    .preferredColorScheme(.dark)
+            .sheet(isPresented: $showAddSheet) {
+                JournalEditorView(viewModel: viewModel)
             }
+            .sheet(item: $journalToEdit) { journal in
+                JournalEditorView(viewModel: viewModel, journal: journal)
+            }
+            .alert("Delete Journal?", isPresented: $showDeleteAlert) {
+                Button("Cancel", role: .cancel) { }
+                Button("Delete", role: .destructive) {
+                    if let journal = journalToDelete {
+                        viewModel.deleteJournal(journal)
+                    }
+                }
+            } message: {
+                Text("Are you sure you want to delete this journal?")
+            }
+        }
+        .tint(.primary)
+    }
+}
+
+#Preview {
+    ContentView()
+        .preferredColorScheme(.dark)
+}

@@ -16,29 +16,29 @@ enum SortOption {
 class JournalViewModel: ObservableObject {
     @Published var journals: [Journal] = [
         Journal(title: "My Birthday", content: "Best day ever with my family and friends!", isBookmarked: true),
-            Journal(title: "Today's Journal", content: "Started learning SwiftUI today."),
-            Journal(title: "Great Day", content: "Finished the splash screen and main page!")
-        ]
+        Journal(title: "Today's Journal", content: "Started learning SwiftUI today."),
+        Journal(title: "Great Day", content: "Finished the splash screen and main page!")
+    ]
     @Published var sortOption: SortOption = .date
     @Published var searchText = ""
-
+    
     var displayedJournals: [Journal] {
         var result: [Journal]
-
+        
         switch sortOption {
         case .date:
             result = journals.sorted { $0.date > $1.date }
         case .bookmark:
             result = journals.filter { $0.isBookmarked }
         }
-
+        
         if !searchText.isEmpty {
             result = result.filter {
                 $0.title.localizedCaseInsensitiveContains(searchText) ||
                 $0.content.localizedCaseInsensitiveContains(searchText)
             }
         }
-
+        
         return result
     }
     
@@ -57,7 +57,7 @@ class JournalViewModel: ObservableObject {
             journals[index].content = content
         }
     }
-
+    
     func deleteJournal(_ journal: Journal) {
         journals.removeAll { $0.id == journal.id }
     }
